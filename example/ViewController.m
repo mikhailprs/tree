@@ -27,7 +27,8 @@
 
 - (void)test{
     NSURL *url = [NSURL URLWithString:@"https://www.fcbarcelona.com"];
-    
+    _root = [self createTargetObject:url];
+    [self run:url];
     
 }
 
@@ -52,6 +53,7 @@
         if([element.tagName isEqualToString:@"a"]){
             NSDataDetector* detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
             NSArray* matches = [detector matchesInString:element.outerHTML  options:0 range:NSMakeRange(0, [element.outerHTML length])];
+            if (matches.count == 0) continue;
             NSTextCheckingResult *value = matches.firstObject;
             [urlList addObject:value.URL];
         }
@@ -72,33 +74,15 @@
 
 
 - (void)run:(NSURL*)firstUrl{
-    if (!_root){
-        _root = [self createTargetObject:firstUrl];
-        return;
-    }
-    
-    
-    
-    
+    NSArray *data = [self parseUrl:firstUrl];
+        for (int i = 0; i < 3 ; i++){
+            int rndValue = arc4random() % [self parseUrl:firstUrl].count;
+            id <CompositeProtocol> child = [self createTargetObject:data[rndValue]];
+            [_root addMark:child];
+        }
     
 }
     
-//    
-//    
-//    if (urlList.count < 3){
-//        Dot *dot = [Dot new];
-//        dot.name = url;
-//        _root = dot;
-//    }else{
-//        for (int i = 0; i < 2 ; i++){
-//            int rndValue = arc4random() % urlList.count;
-//            Tree *tree = [Tree new];
-//            tree add
-//        }
-//        
-//        
-//    }
-//    
 
     
 

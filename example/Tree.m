@@ -8,14 +8,25 @@
 
 #import "Tree.h"
 
-@implementation Tree{
-    NSMutableArray *array;
+@interface Tree ()
+
+@property (strong, nonatomic) NSMutableArray *array;
+
+@end
+
+@implementation Tree
+    
+
+- (NSMutableArray *)array{
+    if (!_array){
+        _array = [NSMutableArray new];
+    }
+    return _array;
 }
 
 
-
 - (void)addMark:(id <CompositeProtocol>)mark{
-    
+    [self.array addObject:mark];
 }
 - (id <CompositeProtocol>)childrenAtIndex:(NSInteger)index{
     return nil;
