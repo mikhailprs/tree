@@ -13,6 +13,8 @@
 
 @property (strong, nonatomic) NSURL *name;
 @property (strong, nonatomic, readonly) id <CompositeProtocol> lastChild;
+@property (strong, nonatomic) id <CompositeProtocol> parent;
+
 @property (strong, nonatomic) NSArray *childrens;
 
 @end

@@ -12,10 +12,10 @@
 
 @property (strong, nonatomic) NSMutableArray *array;
 
+
 @end
 
 @implementation Tree
-    
 
 - (NSMutableArray *)array{
     if (!_array){
@@ -24,13 +24,15 @@
     return _array;
 }
 
-
-
-
 - (void)addMark:(id <CompositeProtocol>)mark{
+    if (!_array){
+        [self setNestingLevel:1];
+    }
+    mark.parent = self;
     [self.array addObject:mark];
     _childrens = [self.array copy];
 }
+
 - (id <CompositeProtocol>)childrenAtIndex:(NSInteger)index{
     return nil;
 }
@@ -38,5 +40,12 @@
 - (id <CompositeProtocol>)lastChild{
     return _array.lastObject;
 }
+
+
+- (void)setNestingLevel:(NSUInteger)nestingLevel{
+    _nestingLevel ++;
+    [self.parent setNestingLevel:nestingLevel];
+}
+
 
 @end

@@ -94,11 +94,12 @@
     NSArray *parsedList = [self parseUrl:target.name];
     NSUInteger count = parsedList.count;
     if (!count) return;
-    int rndValue = 0;
-    id <CompositeProtocol> child = [self createTargetObject:parsedList[rndValue]];
-    child.name = parsedList[rndValue];
-    [target addMark:child];
-
+    for (int i = 0; i < 2 ; i++){
+        int rndValue = arc4random() % count;
+        id <CompositeProtocol> child = [self createTargetObject:parsedList[rndValue]];
+        child.name = parsedList[rndValue];
+        [target addMark:child];
+    }
 }
 
 

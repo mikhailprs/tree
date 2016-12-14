@@ -12,6 +12,10 @@
 @interface Tree : NSObject <CompositeProtocol>
 
 @property (strong, nonatomic, readonly) id <CompositeProtocol> lastChild;
+@property (strong, nonatomic) id <CompositeProtocol> parent;
+@property (assign, nonatomic) NSUInteger nestingLevel;
+
+
 @property (strong, nonatomic) NSURL *name;
 @property (strong, nonatomic, readonly) NSArray *childrens;
 
