@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic, readonly) id <CompositeProtocol> lastChild;
 @property (strong, nonatomic) NSURL *name;
+@property (strong, nonatomic) NSArray *childrens;
 
 - (void)addMark:(id <CompositeProtocol>)mark;
 - (id <CompositeProtocol>)childrenAtIndex:(NSInteger)index;

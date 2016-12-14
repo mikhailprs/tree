@@ -26,10 +26,14 @@
 }
 
 - (void)test{
+     NSDate *start = [NSDate date];
     NSURL *url = [NSURL URLWithString:@"https://www.fcbarcelona.com"];
     _root = [self createTargetObject:url];
-    [self run:url];
-    
+    [_root setName:url];
+    [self run:self.root];
+    NSDate *methodFinish = [NSDate date];
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:start];
+    NSLog(@"Execution Time: %f", executionTime);
 }
 
 
@@ -56,6 +60,7 @@
             if (matches.count == 0) continue;
             NSTextCheckingResult *value = matches.firstObject;
             [urlList addObject:value.URL];
+            if (urlList.count > 20) break;
         }
     }
     return [urlList copy];
@@ -65,7 +70,7 @@
 
 
 - (id <CompositeProtocol>)createTargetObject:(NSURL *)url{
-    if ([self parseUrl:url].count < 2){
+    if ([self parseUrl:url].count < 5){
         return [Dot new];
     }else{
         return [Tree new];
@@ -73,22 +78,36 @@
 }
 
 
-- (void)run:(NSURL*)firstUrl{
-    NSArray *data = [self parseUrl:firstUrl];
-        for (int i = 0; i < 3 ; i++){
-            int rndValue = arc4random() % [self parseUrl:firstUrl].count;
-            id <CompositeProtocol> child = [self createTargetObject:data[rndValue]];
-            [_root addMark:child];
-        }
-    
+- (void)run:(id<CompositeProtocol>)target{
+    for (id<CompositeProtocol> value in target.childrens){
+        [self fillTheTreeWithParent:value];
+        if ([value isKindOfClass:[Dot class]]) return;
+        [self run:value];
+    }
+    if (!target.childrens && target == self.root){
+        [self fillTheTreeWithParent:target];
+        [self run:target];
+    }
 }
-    
 
-    
+- (void)fillTheTreeWithParent:(id<CompositeProtocol>)target{
+    NSArray *parsedList = [self parseUrl:target.name];
+    NSUInteger count = parsedList.count;
+    if (!count) return;
+    int rndValue = 0;
+    id <CompositeProtocol> child = [self createTargetObject:parsedList[rndValue]];
+    child.name = parsedList[rndValue];
+    [target addMark:child];
 
-    
-    
+}
 
 
+
+//NSArray *data = [self parseUrl:firstUrl];
+//for (int i = 0; i < 3 ; i++){
+//    int rndValue = arc4random() % [self parseUrl:firstUrl].count;
+//    id <CompositeProtocol> child = [self createTargetObject:data[rndValue]];
+//    [_root addMark:child];
+//}
 
 @end

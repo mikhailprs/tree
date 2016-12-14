@@ -12,5 +12,7 @@
 @interface Dot : NSObject <CompositeProtocol>
 
 @property (strong, nonatomic) NSURL *name;
+@property (strong, nonatomic, readonly) id <CompositeProtocol> lastChild;
+@property (strong, nonatomic) NSArray *childrens;
 
 @end

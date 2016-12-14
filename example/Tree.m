@@ -25,11 +25,18 @@
 }
 
 
+
+
 - (void)addMark:(id <CompositeProtocol>)mark{
     [self.array addObject:mark];
+    _childrens = [self.array copy];
 }
 - (id <CompositeProtocol>)childrenAtIndex:(NSInteger)index{
     return nil;
+}
+
+- (id <CompositeProtocol>)lastChild{
+    return _array.lastObject;
 }
 
 @end
